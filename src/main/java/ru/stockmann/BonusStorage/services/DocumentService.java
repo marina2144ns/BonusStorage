@@ -8,6 +8,7 @@ import ru.stockmann.BonusStorage.repositories.DocumentRepository;
 
 import java.util.List;
 
+
 @Service
 @Transactional(readOnly = true)
 public class DocumentService {
@@ -18,7 +19,7 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public List<Document> findAll(){
-        return documentRepository.findAll();
+    public List<Document> findChanged(){
+        return documentRepository.findByIsChanged(Boolean.TRUE);
     }
 }

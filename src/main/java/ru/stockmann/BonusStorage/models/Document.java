@@ -28,16 +28,20 @@ public class Document implements java.io.Serializable{
     @Column(name = "Ext_Number")
     private String extNumber;
 
+    @Column(name = "IsChanged")
+    private Boolean isChanged;
+
     public Document() {
     }
 
-    public Document(Integer id, Integer sourceBase, Integer documentType, byte[] extIdRRef, LocalDateTime extDateTime, String extNumber) {
+    public Document(Integer id, Integer sourceBase, Integer documentType, byte[] extIdRRef, LocalDateTime extDateTime, String extNumber, Boolean isChanged) {
         this.id = id;
         this.sourceBase = sourceBase;
         this.documentType = documentType;
         this.extIdRRef = extIdRRef;
         this.extDateTime = extDateTime;
         this.extNumber = extNumber;
+        this.isChanged = isChanged;
     }
 
     public Integer getId() {
@@ -86,6 +90,14 @@ public class Document implements java.io.Serializable{
 
     public void setExtNumber(String extNumber) {
         this.extNumber = extNumber;
+    }
+
+    public Boolean getChanged() {
+        return isChanged;
+    }
+
+    public void setChanged(Boolean changed) {
+        isChanged = changed;
     }
 
     @Override

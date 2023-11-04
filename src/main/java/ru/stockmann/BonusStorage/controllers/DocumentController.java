@@ -18,8 +18,19 @@ public class DocumentController {
     public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
     }
-    @GetMapping("/")
+
+    @GetMapping("/changed") //todo добавить пейджинацию
     public List<Document> getDocuments(){
-        return documentService.findAll();
+        return documentService.findChanged();
+    }
+
+/*    @GetMapping("/changednumber")
+    public int getNumberOfChangedDocuments(){
+        return documentService.getNumberOfChangedDocuments();
+    }*/
+
+    @GetMapping("/uploadbonuses")
+    public void uploadBonuses(){
+
     }
 }
