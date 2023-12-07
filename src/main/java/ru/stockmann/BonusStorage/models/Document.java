@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Documents")
@@ -20,7 +21,7 @@ public class Document implements java.io.Serializable{
     private Integer documentType;
 
     @Column(name = "Ext_IDRRef")
-    private byte[] extIdRRef;
+    private UUID extIdRRef;
 
     @Column(name = "Ext_Date_Time")
     private LocalDateTime extDateTime;
@@ -34,7 +35,7 @@ public class Document implements java.io.Serializable{
     public Document() {
     }
 
-    public Document(Integer id, Integer sourceBase, Integer documentType, byte[] extIdRRef, LocalDateTime extDateTime, String extNumber, Boolean isChanged) {
+    public Document(Integer id, Integer sourceBase, Integer documentType, UUID extIdRRef, LocalDateTime extDateTime, String extNumber, Boolean isChanged) {
         this.id = id;
         this.sourceBase = sourceBase;
         this.documentType = documentType;
@@ -68,11 +69,11 @@ public class Document implements java.io.Serializable{
         this.documentType = documentType;
     }
 
-    public byte[] getExtIdRRef() {
+    public UUID getExtIdRRef() {
         return extIdRRef;
     }
 
-    public void setExtIdRRef(byte[] extIdRRef) {
+    public void setExtIdRRef(UUID extIdRRef) {
         this.extIdRRef = extIdRRef;
     }
 
