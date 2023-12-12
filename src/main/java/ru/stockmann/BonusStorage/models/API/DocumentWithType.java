@@ -26,4 +26,12 @@ public class DocumentWithType {
     public void setDocument_type(Integer document_type) {
         this.document_type = document_type;
     }
+
+    @Override
+    public String toString() {
+        return "DocumentWithType{" +
+                "document_guid=" + document_guid +
+                ", document_type=" + document_type +
+                '}';
+    }
 }
