@@ -2,6 +2,7 @@ package ru.stockmann.BonusStorage.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.stockmann.BonusStorage.models.Document;
@@ -20,16 +21,13 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public List<Document> findChanged(){
-        return documentRepository.findByIsChanged(Boolean.TRUE);
+    public List<Document> findChanged(int count){
+        Pageable pageable = PageRequest.of(0, count);
+        return documentRepository.findFirstNByIsChangedTrue(pageable);
     }
 
     public Integer countChanged(){
         return documentRepository.countByIsChanged(Boolean.TRUE);
-    }
-
-    public List<Document> findTop1Changed(){
-        return documentRepository.findTop1ByIsChanged(Boolean.TRUE);
     }
 
     public List<Document> findAll(){return documentRepository.findAll();}

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Converting {
 
-    public static byte[] convertUUIDToBytes(UUID uuid) {
+/*    public static byte[] convertUUIDToBytes(UUID uuid) {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getLeastSignificantBits());
@@ -16,5 +16,5 @@ public class Converting {
         long high = byteBuffer.getLong();
         long low = byteBuffer.getLong();
         return new UUID(high, low);
-    }
+    }*/
 }
