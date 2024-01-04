@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class DocumentInput {
     private UUID documentGuid;
-    private String documentType;
+    private Integer documentType;
     private String documentNumber;
     private LocalDateTime documentDate;
     private String documentStatus;
@@ -25,11 +25,11 @@ public class DocumentInput {
         this.documentGuid = documentGuid;
     }
 
-    public String getDocumentType() {
+    public Integer getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(String documentType) {
+    public void setDocumentType(Integer documentType) {
         this.documentType = documentType;
     }
 

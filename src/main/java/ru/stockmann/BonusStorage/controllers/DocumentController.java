@@ -3,10 +3,10 @@ package ru.stockmann.BonusStorage.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +15,10 @@ import org.springframework.web.client.HttpStatusCodeException;
 import ru.stockmann.BonusStorage.models.API.BonusesInput;
 import ru.stockmann.BonusStorage.models.API.DocumentInput;
 import ru.stockmann.BonusStorage.models.API.ResultInput;
+import ru.stockmann.BonusStorage.models.BonusesInDocument;
 import ru.stockmann.BonusStorage.models.Document;
 
+import ru.stockmann.BonusStorage.services.BonusesInDocumentService;
 import ru.stockmann.BonusStorage.services.DocumentService;
 
 import java.net.URI;
@@ -32,14 +34,19 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static ru.stockmann.BonusStorage.utils.Converting.convertUUIDToBinary;
+
+
 @RestController
 @RequestMapping("/bonusstorage/v1.0/documents")
 public class DocumentController {
     private final DocumentService documentService;
+    private final BonusesInDocumentService bonusesInDocumentService;
 
     @Autowired
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, BonusesInDocumentService bonusesInDocumentService) {
         this.documentService = documentService;
+        this.bonusesInDocumentService = bonusesInDocumentService;
     }
 
     @Value("${uploadingbonuses.documentsCount}")
@@ -66,6 +73,7 @@ public class DocumentController {
     }
 
     @GetMapping("/development")
+    @Transactional
     public String getDevelopment(){
 
         //Готовим параметры вызова сервиса
@@ -125,30 +133,33 @@ public class DocumentController {
 
             System.out.println("Session: " + result.getSession());
 
-            for (DocumentInput document : result.getDocuments()) {
-/*                System.out.println("Document Guid: " + document.getDocumentGuid());
-                System.out.println("Document Type: " + document.getDocumentType());
-                System.out.println("Document Number: " + document.getDocumentNumber());
-                System.out.println("Document Date: " + document.getDocumentDate());
-                System.out.println("Document Status: " + document.getDocumentStatus());
-                System.out.println("Document Store ID: " + document.getDocumentStoreId());
-                System.out.println("Document Store Name: " + document.getDocumentStoreName());*/
+            for (DocumentInput documentInput : result.getDocuments()) {
 
-                for (BonusesInput event : document.getEvents()) {
-                    /*
-                    System.out.println("   Event:");
-                    System.out.println("   Card Number: " + event.getCardNumber());
-                    System.out.println("   Type of Increment: " + event.getTypeOfIncrement());
-                    System.out.println("   Value: " + event.getValue());
-                    System.out.println("   Type of Operation: " + event.getTypeOfOperation());
-                    System.out.println("   Text Operation: " + event.getTextOperation());
-                    System.out.println("   Order ID: " + event.getOrderId());
-                    System.out.println("   Start Date: " + event.getBonusDate().getStartDate());
-                    System.out.println("   End Date: " + event.getBonusDate().getEndDate());
-
-                     */
+                System.out.println(documentInput.getDocumentGuid());
+                Document document = documentService.findByExtIdRRef(documentInput.getDocumentGuid());
+                    if (document != null){
+                        // Удаляем все записи в таблице BonusesInDocuments, относящиеся к текущему Document
+                        bonusesInDocumentService.deleteByDocument(document);
+                        // Создаем новые записи из объекта BonusesInput
+                        for (BonusesInput bonusesInput : documentInput.getEvents()) {
+                            BonusesInDocument bonusesInDocument = new BonusesInDocument();
+                            bonusesInDocument.setSourceBase(document.getSourceBase());//todo проверить откуда лучше
+                            bonusesInDocument.setDocumentType(documentInput.getDocumentType());
+                            bonusesInDocument.setStoreId(documentInput.getDocumentStoreId());
+                            bonusesInDocument.setStoreName(documentInput.getDocumentStoreName());
+                            bonusesInDocument.setCardNumber(bonusesInput.getCardNumber());
+                            bonusesInDocument.setTypeOfIncrement(bonusesInput.getTypeOfIncrement());
+                            bonusesInDocument.setValue(bonusesInput.getValue());
+                            bonusesInDocument.setTextOperation(bonusesInput.getTextOperation());
+                            bonusesInDocument.setOrderId(documentInput.getDocumentNumber());
+                            bonusesInDocument.setStartDate(bonusesInput.getBonusDate().getStartDate());
+                            bonusesInDocument.setEndDate(bonusesInput.getBonusDate().getEndDate());
+                            bonusesInDocument.setDocument(document);
+                            // Сохраняем в базе данных
+                            bonusesInDocumentService.save(bonusesInDocument);
+                        }
+                    }
                 }
-            }
         } catch (Exception e) {
             logger.error("Error while reading json from Bonusnik, Session: {}",session.toString(),e);
             return "";
@@ -193,22 +204,5 @@ public class DocumentController {
         jsonArray.append("]");
         return jsonArray.toString();
     }
-/*    private static LocalDateTime parseDateTime(String dateTimeString) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
 
-/*    private static UUID parseUUID(String uuidString) {
-        try {
-            return UUID.fromString(uuidString);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
 }

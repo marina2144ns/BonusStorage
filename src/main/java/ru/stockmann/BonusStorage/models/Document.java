@@ -1,6 +1,7 @@
 package ru.stockmann.BonusStorage.models;
 
 import jakarta.persistence.*;
+import ru.stockmann.BonusStorage.utils.IdConverter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -8,9 +9,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Documents")
-@IdClass(Document.class)
 public class Document implements java.io.Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Id")
     private Integer id;
 
@@ -20,7 +21,8 @@ public class Document implements java.io.Serializable{
     @Column(name = "DocumentType")
     private Integer documentType;
 
-    @Column(name = "Ext_IDRRef")
+    @Column(name = "Ext_IDRRef", columnDefinition = "BINARY(16)")
+    @Convert(converter = IdConverter.class)
     private UUID extIdRRef;
 
     @Column(name = "Ext_Date_Time")

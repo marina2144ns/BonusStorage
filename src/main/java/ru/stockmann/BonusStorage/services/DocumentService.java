@@ -9,6 +9,7 @@ import ru.stockmann.BonusStorage.models.Document;
 import ru.stockmann.BonusStorage.repositories.DocumentRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -31,4 +32,8 @@ public class DocumentService {
     }
 
     public List<Document> findAll(){return documentRepository.findAll();}
+
+    public Document findByExtIdRRef(UUID guid){
+        return documentRepository.findByExtIdRRef(guid);
+    }
 }
