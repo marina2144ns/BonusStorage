@@ -30,6 +30,8 @@ public class BonusesInDocument implements java.io.Serializable{
     private String typeOfIncrement;
     @Column(name = "Value")
     private Double value;
+    @Column(name = "TypeOfOperation")
+    private Integer typeOfOperation;
     @Column(name = "TextOperation")
     private String textOperation;
     @Column(name = "OrderID")
@@ -38,12 +40,13 @@ public class BonusesInDocument implements java.io.Serializable{
     private LocalDateTime startDate;
     @Column(name = "BonusEndDate")
     private LocalDateTime endDate;
-
+    @Column(name = "Created")
+    private LocalDateTime created;
 
     public BonusesInDocument() {
     }
 
-    public BonusesInDocument(Integer id, Integer sourceBase, Integer documentType, Document document, UUID storeId, String storeName, String cardNumber, String typeOfIncrement, Double value, String textOperation, String orderId, LocalDateTime startDate, LocalDateTime endDate) {
+    public BonusesInDocument(Integer id, Integer sourceBase, Integer documentType, Document document, UUID storeId, String storeName, String cardNumber, String typeOfIncrement, Double value, String textOperation, String orderId, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime created) {
         this.id = id;
         this.sourceBase = sourceBase;
         this.documentType = documentType;
@@ -57,6 +60,7 @@ public class BonusesInDocument implements java.io.Serializable{
         this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.created = created;
     }
 
     public Integer getId() {
@@ -161,5 +165,21 @@ public class BonusesInDocument implements java.io.Serializable{
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public Integer getTypeOfOperation() {
+        return typeOfOperation;
+    }
+
+    public void setTypeOfOperation(Integer typeOfOperation) {
+        this.typeOfOperation = typeOfOperation;
     }
 }

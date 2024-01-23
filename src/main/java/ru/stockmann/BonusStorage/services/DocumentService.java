@@ -27,13 +27,12 @@ public class DocumentService {
         return documentRepository.findFirstNByIsChangedTrue(pageable);
     }
 
-    public Integer countChanged(){
-        return documentRepository.countByIsChanged(Boolean.TRUE);
+    public Document findByOneCId(String oneCId){
+        return documentRepository.findByOneCId(oneCId);
     }
 
-    public List<Document> findAll(){return documentRepository.findAll();}
-
-    public Document findByExtIdRRef(UUID guid){
-        return documentRepository.findByExtIdRRef(guid);
+    @Transactional
+    public Document save(Document document){
+        return documentRepository.save(document);
     }
 }

@@ -16,9 +16,11 @@ public class BonusesInDocumentService {
     public BonusesInDocumentService(BonusesInDocumentRepository bonusesInDocumentRepository) {
         this.bonusesInDocumentRepository = bonusesInDocumentRepository;
     }
+    @Transactional
     public void deleteByDocument(Document document){
         bonusesInDocumentRepository.deleteByDocument(document);
     };
+    @Transactional
     public BonusesInDocument save(BonusesInDocument bonusesInDocument){
         return bonusesInDocumentRepository.save(bonusesInDocument);
     }

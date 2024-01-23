@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DocumentRepository extends JpaRepository<Document,Integer> {
-    Integer countByIsChanged(Boolean isChanged);
     @Query("SELECT d FROM Document d WHERE d.isChanged = true ORDER BY d.id ASC")
     List<Document> findFirstNByIsChangedTrue(Pageable pageable);
-    Document findByExtIdRRef(UUID guid);
+    Document findByOneCId(String oneCId);
 }

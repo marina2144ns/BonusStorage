@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class DocumentInput {
-    private UUID documentGuid;
+    private String documentGuid;
     private Integer documentType;
     private String documentNumber;
     private LocalDateTime documentDate;
@@ -17,11 +17,11 @@ public class DocumentInput {
     private String documentStoreName;
     private List<BonusesInput> events;
 
-    public UUID getDocumentGuid() {
+    public String getDocumentGuid() {
         return documentGuid;
     }
 
-    public void setDocumentGuid(UUID documentGuid) {
+    public void setDocumentGuid(String documentGuid) {
         this.documentGuid = documentGuid;
     }
 

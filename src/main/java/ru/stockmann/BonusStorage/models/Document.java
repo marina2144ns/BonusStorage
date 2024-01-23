@@ -1,6 +1,7 @@
 package ru.stockmann.BonusStorage.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import ru.stockmann.BonusStorage.utils.IdConverter;
 
 import java.time.LocalDateTime;
@@ -21,9 +22,11 @@ public class Document implements java.io.Serializable{
     @Column(name = "DocumentType")
     private Integer documentType;
 
-    @Column(name = "Ext_IDRRef", columnDefinition = "BINARY(16)")
-    @Convert(converter = IdConverter.class)
+    @Column(name = "Ext_IDRRef")
     private UUID extIdRRef;
+
+    @Column(name = "OneCId")
+    private String oneCId;
 
     @Column(name = "Ext_Date_Time")
     private LocalDateTime extDateTime;
@@ -34,17 +37,22 @@ public class Document implements java.io.Serializable{
     @Column(name = "IsChanged")
     private Boolean isChanged;
 
+    @Column(name = "BonusesUploaded")
+    private LocalDateTime bonusesUploaded;
+
     public Document() {
     }
 
-    public Document(Integer id, Integer sourceBase, Integer documentType, UUID extIdRRef, LocalDateTime extDateTime, String extNumber, Boolean isChanged) {
+    public Document(Integer id, Integer sourceBase, Integer documentType, UUID extIdRRef, String oneCId, LocalDateTime extDateTime, String extNumber, Boolean isChanged, LocalDateTime bonusesUploaded) {
         this.id = id;
         this.sourceBase = sourceBase;
         this.documentType = documentType;
         this.extIdRRef = extIdRRef;
+        this.oneCId = oneCId;
         this.extDateTime = extDateTime;
         this.extNumber = extNumber;
         this.isChanged = isChanged;
+        this.bonusesUploaded = bonusesUploaded;
     }
 
     public Integer getId() {
@@ -79,6 +87,14 @@ public class Document implements java.io.Serializable{
         this.extIdRRef = extIdRRef;
     }
 
+    public String getOneCId() {
+        return oneCId;
+    }
+
+    public void setOneCId(String oneCId) {
+        this.oneCId = oneCId;
+    }
+
     public LocalDateTime getExtDateTime() {
         return extDateTime;
     }
@@ -101,6 +117,14 @@ public class Document implements java.io.Serializable{
 
     public void setChanged(Boolean changed) {
         isChanged = changed;
+    }
+
+    public LocalDateTime getBonusesUploaded() {
+        return bonusesUploaded;
+    }
+
+    public void setBonusesUploaded(LocalDateTime bonusesUploaded) {
+        this.bonusesUploaded = bonusesUploaded;
     }
 
     @Override
