@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import ru.stockmann.BonusStorage.models.API.BonusesInput;
@@ -55,8 +56,10 @@ public class BonusStorageApplicationRunner implements ApplicationRunner {
     }
 
     @Override
+    @Scheduled(fixedRate = 30000)
     public void run(ApplicationArguments args) throws Exception {
         updateBonusData();
+        logger.info("run");
     }
     @Transactional
     public void updateBonusData(){
@@ -149,7 +152,7 @@ public class BonusStorageApplicationRunner implements ApplicationRunner {
                         bonusesInDocument.setValue(bonusesInput.getValue());
                         bonusesInDocument.setTypeOfOperation(bonusesInput.getTypeOfOperation());
                         bonusesInDocument.setTextOperation(bonusesInput.getTextOperation());
-                        bonusesInDocument.setOrderId(documentInput.getDocumentNumber());
+                        bonusesInDocument.setOrderId(bonusesInput.getOrderId());
                         bonusesInDocument.setStartDate(bonusesInput.getBonusDate().getStartDate());
                         bonusesInDocument.setEndDate(bonusesInput.getBonusDate().getEndDate());
                         bonusesInDocument.setDocument(document);

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class Converting {
 
-    public static String convertUUIDToBinary(UUID uuid) {
+    public static String convertUUIDToBinary1(UUID uuid) {
         // Создаем ByteBuffer и записываем в него mostSignificant и leastSignificant
         ByteBuffer buffer = ByteBuffer.allocate(16);
         buffer.putLong(uuid.getMostSignificantBits());

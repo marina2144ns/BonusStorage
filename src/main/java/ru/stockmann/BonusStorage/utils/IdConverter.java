@@ -45,7 +45,6 @@ public class IdConverter implements AttributeConverter<UUID, byte[]> {
                 // Создание UUID
                 UUID uuid = new UUID(mostSigBits, leastSigBits);
 
-                logger.error("uuid ="+uuid.toString());
                 return uuid;
 
         }
