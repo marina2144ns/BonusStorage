@@ -14,6 +14,8 @@ The SQL scripts define the `BonusStorage` database objects.
 ## Stored procedures
 
 - `procedures/upload_bonus_documents.sql` — loads changed documents from the configured retail source database into `dbo.Documents`.
+- `procedures/upload_information_cards.sql` — loads new and changed information cards into `dbo.InformationCards`.
+- `procedures/upload_person_phones.sql` — replaces phone rows for changed persons in `dbo.PersonPhones`.
 
 For a new database, run the scripts in this order:
 
