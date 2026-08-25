@@ -11,6 +11,10 @@ The SQL scripts define the `BonusStorage` database objects.
 
 - `data/reference_data.sql` — initial source database, operation types, and document types.
 
+## SQL Agent Jobs
+
+- `jobs/upload_bonus_documents.sql` — creates the `UploadBonusDocumentsRegl` job and runs it every 10 seconds.
+
 ## Stored procedures
 
 - `procedures/upload_bonus_documents.sql` — loads changed documents from the configured retail source database into `dbo.Documents`.
@@ -23,5 +27,6 @@ For a new database, run the scripts in this order:
 2. `ddl/information_cards.sql`
 3. `data/reference_data.sql`
 4. scripts from `procedures`
+5. scripts from `jobs`
 
 The DDL and initial-data files are creation scripts and intentionally fail if the objects or data already exist.
