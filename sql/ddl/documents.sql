@@ -72,6 +72,19 @@ CREATE TABLE [dbo].[Documents]
 );
 GO
 
+CREATE NONCLUSTERED INDEX [NIndex_Documents_SourceBase_DocumentType_CurrentVersion]
+    ON [dbo].[Documents]
+    (
+        [SourceBase],
+        [DocumentType],
+        [CurrentVersion] DESC
+    );
+GO
+
+CREATE NONCLUSTERED INDEX [NIndex_Documents_OneCId]
+    ON [dbo].[Documents] ([OneCId]);
+GO
+
 CREATE TABLE [dbo].[BonusesInDocuments]
 (
     [Id] INT IDENTITY(1,1) NOT NULL,
@@ -104,7 +117,15 @@ CREATE TABLE [dbo].[BonusesInDocuments]
     CONSTRAINT [FK_BonusesInDocuments_SourceBase]
         FOREIGN KEY ([SourceBase])
         REFERENCES [dbo].[SourceBases] ([Id])
-);
+); 
+GO
+
+CREATE NONCLUSTERED INDEX [NIndex_BonusesInDocuments_Document]
+    ON [dbo].[BonusesInDocuments] ([Document]);
+GO
+
+CREATE NONCLUSTERED INDEX [NIndex_BonusesInDocuments_CardNumber]
+    ON [dbo].[BonusesInDocuments] ([CardNumber]);
 GO
 
 CREATE TABLE [dbo].[SMS_informed]
