@@ -215,6 +215,7 @@ sql
 2. `sql/ddl/information_cards.sql`
 3. `sql/data/reference_data.sql`
 4. скрипты из `sql/procedures`
+5. скрипты из `sql/jobs`
 
 Подробности находятся в [sql/README.md](sql/README.md).
 
