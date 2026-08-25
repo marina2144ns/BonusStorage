@@ -1,8 +1,10 @@
-# SQL scripts
+# SQL schema
 
-The DDL scripts are creation scripts for an empty `BonusStorage` database. Run them in filename order:
+The DDL scripts create the `BonusStorage` database objects:
 
-1. `ddl/01_existing_tables.sql` — existing project tables and their foreign keys.
-2. `ddl/02_information_cards_person_phones.sql` — information-card and person-phone tables for the new data mart.
+- `ddl/documents.sql` — source configuration, document types, documents, bonus events, operation types, and SMS notification data.
+- `ddl/information_cards.sql` — information cards and person phone data used by the card-and-phone data mart.
 
-The scripts intentionally fail if the objects already exist. They are schema snapshots, not repeatable migrations.
+For a new database, run `documents.sql` first and then `information_cards.sql`.
+
+The scripts are schema creation snapshots and intentionally fail if the objects already exist.
