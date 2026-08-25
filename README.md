@@ -191,7 +191,7 @@ src/main/java/ru/stockmann/BonusStorage
 - по номеру карты через индекс `IX_InformationCards_CardCode`;
 - по телефону через индекс `IX_PersonPhones_Phone`.
 
-DDL таблиц уже добавлен. Процедуры их загрузки пока не реализованы.
+DDL таблиц и процедуры их инкрементальной загрузки уже добавлены.
 
 ## SQL-скрипты
 
@@ -204,7 +204,9 @@ sql
 │   ├── documents.sql
 │   └── information_cards.sql
 └── procedures
-    └── upload_bonus_documents.sql
+    ├── upload_bonus_documents.sql
+    ├── upload_information_cards.sql
+    └── upload_person_phones.sql
 ```
 
 Для создания новой базы скрипты выполняются в следующем порядке:
@@ -286,4 +288,4 @@ src/test/java/ru/stockmann/BonusStorage/BonusStorageApplicationTests.java
 - Документы помечаются обработанными до получения успешного ответа внешнего сервиса.
 - HTTP-запрос не содержит явно настроенных тайм-аутов и повторных попыток.
 - SQL-загрузка документов и Java-обработка являются двумя отдельными механизмами.
-- Загрузка таблиц `InformationCards` и `PersonPhones` ещё не реализована.
+- Таблицы `InformationCards` и `PersonPhones` загружаются отдельными SQL-процедурами по версиям объектов 1С.
